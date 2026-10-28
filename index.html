@@ -3,89 +3,162 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ayna Musayeva</title>
+<title>Ayna Musayeva — Investigative Researcher &amp; Software Developer</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Investigative researcher and founder of Nimillux.">
+<meta name="description" content="Ayna Musayeva: investigative research into corporate ownership, financial networks and the art market, and analytical software for investigating complex datasets.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&amp;display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div class="wrap">
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark" href="index.html">Ayna Musayeva<span>Investigative Researcher &amp; Software Developer</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="systems.html">Intelligence Systems</a></li>
+        <li><a href="investigations.html">Research &amp; Investigations</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
 
-  <h1>Ayna Musayeva</h1>
-  <p class="role">Investigative Researcher &nbsp;·&nbsp; Founder, Nimillux</p>
+<section class="hero">
+  <div class="container">
+    <p class="identity"><strong>Ayna Musayeva</strong> &nbsp;·&nbsp; Investigative Researcher &amp; Software Developer</p>
+    <h1>Investigating complex systems. Building tools to understand them.</h1>
+    <p class="lede">I research corporate relationships, ownership structures, financial networks and
+      regulatory gaps, and I build analytical systems that let an investigator work through large
+      datasets while keeping every judgement traceable to its evidence.</p>
+    <div class="actions">
+      <a class="button primary" href="systems.html">Intelligence systems</a>
+      <a class="button" href="investigations.html">Research &amp; investigations</a>
+      <a class="button" href="contact.html">Contact</a>
+    </div>
+  </div>
+</section>
 
-  <p class="bio">
-    An investigative researcher specializing in speculative markets, concealed
-    ownership structures, complex financing arrangements, and opaque financial
-    operations within the global art market, with particular expertise in
-    regulatory frameworks, legislation, and cross-border compliance.
-  </p>
+<section class="section">
+  <div class="container">
+    <div class="two-col">
+      <div class="strength">
+        <p class="kicker">Research</p>
+        <h3>Corporate and financial investigation</h3>
+        <p>Ownership and financing structures, auction-house ownership, restitution law and the
+          regulatory frameworks that leave parts of high-value markets outside oversight. Work built
+          on primary sources and documented citations.</p>
+      </div>
+      <div class="strength">
+        <p class="kicker">Engineering</p>
+        <h3>Investigative software</h3>
+        <p>Python systems on SQL databases (MySQL, DuckDB) with graph analysis, explainable detection
+          rules, append-only audit trails, evidence-linked case workflows and reports that can be
+          verified after they are written.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <p class="bio">
-    Founder and AI Research Infrastructure Developer of Nimillux, an
-    independently designed and developed, fully local AI research and
-    intelligence system built around verification, provenance, and
-    source-grounded analysis.
-  </p>
+<section class="section" aria-labelledby="systems-h">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="systems-h">Selected systems</h2>
+      <a href="systems.html">All five systems &rarr;</a>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+        <p class="kicker">Corporate intelligence · GLEIF</p>
+        <h3><a href="crie.html">CRIE</a></h3>
+        <p class="full">Corporate Relationship Intelligence Engine</p>
+        <p class="summary">Investigation workbench for reported parent–subsidiary relationships:
+          sourced claims, append-only reviews and hash-verified, versioned reports.</p>
+        <p class="meta">Python · MySQL · Streamlit</p>
+      </div>
+      <div class="card">
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+        <p class="kicker">Blockchain graph analysis</p>
+        <h3><a href="btgi.html">BTGI</a></h3>
+        <p class="full">Bitcoin Transaction Graph Investigator</p>
+        <p class="summary">Bounded directed-graph exploration of 203,769 transactions with
+          explainable structural alerts and traced evidence.</p>
+        <p class="result">Held-out precision 1.15%, below the 6.5% base rate.</p>
+        <p class="meta">Python · DuckDB · Streamlit</p>
+      </div>
+      <div class="card">
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+        <p class="kicker">Source-grounded AI research</p>
+        <h3><a href="nimillux.html">Nimillux</a></h3>
+        <p class="full">AI Research Infrastructure</p>
+        <p class="summary">Fully local retrieval-augmented research system that checks every
+          generated claim against its sources before showing it.</p>
+        <p class="meta">Python · FAISS · BM25 · Mistral 7B</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <ul class="links">
-    <li>
-      <a href="research.html">
-        <span>
-          <span class="label">Research</span>
-          <span class="sub">Capital, Ownership, and Opacity — six investigations into the global art market</span>
-        </span>
-        <span class="arrow">&rarr;</span>
-      </a>
-    </li>
-    <li>
-      <a href="Nimillux-Technical-Report.pdf">
-        <span>
-          <span class="label">Technical Report</span>
-          <span class="sub">Nimillux: A Locally-Deployed, Verification-First RAG Architecture — PDF</span>
-        </span>
-        <span class="arrow">&rarr;</span>
-      </a>
-    </li>
-    <li>
-      <a href="Ayna-Musayeva-Resume.pdf">
-        <span>
-          <span class="label">Resume</span>
-          <span class="sub">PDF</span>
-        </span>
-        <span class="arrow">&rarr;</span>
-      </a>
-    </li>
-    <li>
-      <a href="https://github.com/aynaamus/nimillux-portfolio" target="_blank" rel="noopener">
-        <span>
-          <span class="label">GitHub</span>
-          <span class="sub">Nimillux — selected modules</span>
-        </span>
-        <span class="arrow">&rarr;</span>
-      </a>
-    </li>
-    <li>
-      <a href="https://www.linkedin.com/in/ayna-musayeva-340612180/" target="_blank" rel="noopener">
-        <span>
-          <span class="label">LinkedIn</span>
-        </span>
-        <span class="arrow">&rarr;</span>
-      </a>
-    </li>
-    <li>
-      <a href="mailto:aynamusayeva@gmail.com">
-        <span>
-          <span class="label">Email</span>
-          <span class="sub">aynamusayeva@gmail.com</span>
-        </span>
-        <span class="arrow">&rarr;</span>
-      </a>
-    </li>
-  </ul>
+<section class="section" aria-labelledby="research-h">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="research-h">Featured research</h2>
+      <a href="investigations.html">Research &amp; investigations &rarr;</a>
+    </div>
+    <div class="feature">
+      <div>
+        <p class="kicker">Research initiative · 2024–present</p>
+        <h3>Capital, Ownership, and Opacity</h3>
+        <p>Six investigations into the global art market: the eastward shift of buying power,
+          artworks that leave the public record after sale, the limits of restitution law, the
+          family and political ties behind Sotheby’s China business, the financing of Sotheby’s
+          privatisation, and private collecting at the Long Museum.</p>
+        <p class="small muted">About 17,000 words · 132 cited notes</p>
+        <div class="actions"><a class="button primary" href="research.html">Read the collection</a></div>
+      </div>
+      <ol class="chapters">
+        <li><a href="research.html#ch1"><span><span class="t">The Eastward Shift</span><span class="s">How Asian capital remade the global art market</span></span></a></li>
+        <li><a href="research.html#ch2"><span><span class="t">The Vanishing Masterpiece</span><span class="s">What happens to great art after it leaves the auction room</span></span></a></li>
+        <li><a href="research.html#ch3"><span><span class="t">Objects of Restitution</span><span class="s">Two centuries of trying to give looted art back</span></span></a></li>
+        <li><a href="research.html#ch4"><span><span class="t">Family Lines</span><span class="s">The political bloodlines behind Sotheby’s China business</span></span></a></li>
+        <li><a href="research.html#ch5"><span><span class="t">The Leverage</span><span class="s">What a $3.7 billion bet on independence actually bought</span></span></a></li>
+        <li><a href="research.html#ch6"><span><span class="t">The Collectors Who Bought Like It Was Free</span><span class="s">Liu Yiqian, Wang Wei, and the Long Museum</span></span></a></li>
+      </ol>
+    </div>
+  </div>
+</section>
 
-  <footer>&copy; 2026 Ayna Musayeva</footer>
+<section class="section" aria-labelledby="contact-h">
+  <div class="container">
+    <div class="section-head"><h2 id="contact-h">Contact</h2></div>
+    <div class="contact-grid">
+      <a href="mailto:aynamusayeva@gmail.com"><span class="k">Email</span><span class="v">aynamusayeva@gmail.com</span></a>
+      <a href="https://www.linkedin.com/in/ayna-musayeva-340612180/" rel="noopener"><span class="k">LinkedIn</span><span class="v">ayna-musayeva</span></a>
+      <a href="https://github.com/aynaamus" rel="noopener"><span class="k">GitHub</span><span class="v">aynaamus</span></a>
+      <a href="Ayna-Musayeva-Resume.pdf"><span class="k">Resume</span><span class="v">PDF</span></a>
+    </div>
+  </div>
+</section>
 
-</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Ayna Musayeva</p>
+    <ul>
+      <li><a href="https://github.com/aynaamus" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/ayna-musayeva-340612180/" rel="noopener">LinkedIn</a></li>
+      <li><a href="mailto:aynamusayeva@gmail.com">Email</a></li>
+      <li><a href="Ayna-Musayeva-Resume.pdf">Resume (PDF)</a></li>
+    </ul>
+  </div>
+</footer>
 </body>
 </html>

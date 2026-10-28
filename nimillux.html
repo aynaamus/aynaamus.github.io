@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nimillux — AI Research Infrastructure — Ayna Musayeva</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Nimillux: a fully local, verification-first retrieval-augmented research system with three-tier evidential confidence estimation and abstention gating.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark" href="index.html">Ayna Musayeva<span>Investigative Researcher &amp; Software Developer</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="systems.html" aria-current="page">Intelligence Systems</a></li>
+        <li><a href="investigations.html">Research &amp; Investigations</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<section class="page-head">
+  <div class="container">
+    <p class="kicker"><a href="systems.html">Intelligence systems</a> · Source-grounded AI research</p>
+    <h1>Nimillux — AI Research Infrastructure</h1>
+    <p class="lede">A fully local retrieval-augmented research system built on one principle: a generated
+      answer is shown only after each of its claims has been checked against the source passages.</p>
+  </div>
+</section>
+
+<div class="container">
+<div class="project">
+<article>
+
+  <section>
+    <h2>Investigative problem</h2>
+    <p>A fluent language-model answer cannot be told apart, on its surface, from one that is faithfully
+      grounded in the documents. For research work, an unverifiable answer is worse than none. Nimillux
+      treats claim verification as part of the architecture rather than a later check, and runs with no
+      commercial inference API, which keeps the source corpus confidential.</p>
+  </section>
+
+  <section>
+    <h2>Architecture and tools</h2>
+    <ul>
+      <li><strong>Ingestion:</strong> PDFs, with OCR for scanned material, split by semantic chunking.</li>
+      <li><strong>Retrieval:</strong> a FAISS vector index combined with BM25 lexical scoring and a
+        maintained concept registry that resolves known aliases.</li>
+      <li><strong>Generation:</strong> a locally hosted Mistral 7B model.</li>
+      <li><strong>Verification:</strong> every claim is classified as strong, weak or unsupported by its
+        best-aligned source passage, with an optional, architecturally independent secondary
+        embedder.</li>
+      <li><strong>Interface:</strong> multi-turn conversation, cross-document synthesis and a
+        contradiction-detection mode.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Data and scale</h2>
+    <p>A research corpus of tens of thousands of documents across technical and financial disciplines,
+      sourced and curated by hand. The system runs on an 8 GB Apple M1 with the corpus on external disk.
+      The corpus and source code are not public.</p>
+  </section>
+
+  <section>
+    <h2>Engineering capabilities</h2>
+    <ul>
+      <li><strong>Three-tier evidential confidence.</strong> An audit showed that the original binary
+        supported/unsupported check was hiding a band of weakly supported claims. The redesign separates
+        strong (similarity ≥ 0.65), weak (0.55–0.65) and unsupported claims.</li>
+      <li><strong>Abstention.</strong> A pre-generation gate declines to answer when retrieval coverage
+        is insufficient, rather than generating around irrelevant context.</li>
+      <li><strong>Citation validation</strong> that catches fabricated reference identifiers.</li>
+      <li><strong>Measured hardware envelope.</strong> Stress tests showed a 14B model silently
+        truncating beyond 4,096 tokens and an 8B model running out of GPU memory above about 8,000
+        tokens, which set the limit at about 7B parameters and 4K context.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Testing and verification</h2>
+    <p>A hand-labeled golden query suite grew from 6 to more than 27 entries during development. Each
+      entry fixes the expected concepts, a minimum coverage and the expected routing domain, and no
+      change is accepted until the full suite passes without regression. Ten categories of
+      query-understanding failure were identified; nine are closed and protected by regression tests.</p>
+  </section>
+
+  <section>
+    <h2>Measured results</h2>
+    <div class="table-wrap">
+      <table>
+        <caption>Per-claim grounding from one representative evaluation sweep (technical report, Table 1).</caption>
+        <thead><tr><th>Query</th><th class="num">Strong</th><th class="num">Weak</th><th class="num">Weak share</th></tr></thead>
+        <tbody>
+          <tr><td>Single-domain (three queries)</td><td class="num">6–10</td><td class="num">1</td><td class="num">9–14%</td></tr>
+          <tr><td>Compound</td><td class="num">5</td><td class="num">4</td><td class="num">44%</td></tr>
+          <tr><td>Cross-domain</td><td class="num">2</td><td class="num">3</td><td class="num">60%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Broader queries produce more weakly supported claims, the population a binary check would have
+      reported as fully supported. No fully unsupported claims were observed in this sweep.</p>
+  </section>
+
+  <section>
+    <h2>Limitations</h2>
+    <ul>
+      <li>The secondary verification pathway is implemented but not yet validated end to end, and is off
+        by default.</li>
+      <li>One query-parsing failure category remains open.</li>
+      <li>Repeat-run stability of claim-level tiers under stochastic generation has not been
+        characterized.</li>
+      <li>The tiers use fixed similarity cut points; they are not probabilistically calibrated.</li>
+      <li>The evaluation suite is small and hand-labeled.</li>
+    </ul>
+  </section>
+
+  <nav class="pager" aria-label="Projects">
+    <a href="btgi.html">&larr; BTGI</a>
+    <a href="systems.html">All systems &rarr;</a>
+  </nav>
+</article>
+
+<aside class="facts" aria-label="Project facts">
+  <dl>
+    <dt>Technical report</dt>
+    <dd><a href="Nimillux-Technical-Report.pdf">Nimillux: A Locally-Deployed, Verification-First RAG Architecture (PDF, 5 pages)</a></dd>
+    <dt>Stack</dt>
+    <dd>Python, FAISS, BM25, Mistral 7B, OCR</dd>
+    <dt>Hardware</dt>
+    <dd>8 GB Apple M1, fully local</dd>
+    <dt>Source code</dt>
+    <dd>Private</dd>
+    <dt>Period</dt>
+    <dd>2024–present</dd>
+  </dl>
+</aside>
+</div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Ayna Musayeva</p>
+    <ul>
+      <li><a href="https://github.com/aynaamus" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/ayna-musayeva-340612180/" rel="noopener">LinkedIn</a></li>
+      <li><a href="mailto:aynamusayeva@gmail.com">Email</a></li>
+      <li><a href="Ayna-Musayeva-Resume.pdf">Resume (PDF)</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>

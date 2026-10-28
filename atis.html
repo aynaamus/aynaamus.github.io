@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATIS — Account Takeover Intelligence System — Ayna Musayeva</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="ATIS: explainable authentication-anomaly detection and investigation tooling on 31.3 million synthesized login events, with a held-out evaluation that detected none of 65 labeled takeovers.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark" href="index.html">Ayna Musayeva<span>Investigative Researcher &amp; Software Developer</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="systems.html" aria-current="page">Intelligence Systems</a></li>
+        <li><a href="investigations.html">Research &amp; Investigations</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<section class="page-head">
+  <div class="container">
+    <p class="kicker"><a href="systems.html">Intelligence systems</a> · Authentication anomalies</p>
+    <h1>ATIS — Account Takeover Intelligence System</h1>
+    <p class="lede">A local toolkit for investigating authentication anomalies: leakage-safe detection
+      rules, traceable evidence, bounded account–IP relationship analysis and an audited case
+      workflow.</p>
+  </div>
+</section>
+
+<div class="container">
+<div class="project">
+<article>
+
+  <div class="notice">
+    <p><strong>Not a validated security control.</strong> On the held-out period the rules detected
+      <strong>0 of 65</strong> labeled takeover events. Alerts are behavioural anomalies, not confirmed
+      account takeovers. The project is an exercise in explainable, leakage-safe investigation
+      tooling.</p>
+  </div>
+
+  <section>
+    <h2>Investigative problem</h2>
+    <p>Login data is high in volume and ambiguous: eight failed logins followed by a success may be a
+      user retrying a password or someone guessing it. ATIS records exactly what each rule saw, separates
+      evidence available at alert time from later events, and leaves the conclusion to the analyst.</p>
+  </section>
+
+  <section>
+    <h2>Architecture and tools</h2>
+    <ul>
+      <li><strong>DuckDB</strong> for ingestion, causal SQL rules, alerts, evidence and cases.</li>
+      <li>Separate modules for ingestion, validation and profiling, detection and calibration,
+        evaluation (the only detection-side module that reads the label), relationship queries and the
+        case workflow.</li>
+      <li><strong>Streamlit</strong> with local <strong>Plotly</strong> graphs: Overview, Alert Queue,
+        Investigation, Relationships and Detection Performance.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Data and scale</h2>
+    <p>The <em>Login Data Set for Risk-Based Authentication</em> (Wiefling, Jørgensen, Thunem and Lo
+      Iacono, 2022; CC BY 4.0): <strong>31,269,264 events</strong> across <strong>4,304,857
+      accounts</strong>, February 2020 to February 2021, with 141 labeled takeover events. Feature values
+      are synthesized from real login patterns. The dataset is not redistributed.</p>
+  </section>
+
+  <section>
+    <h2>Engineering capabilities</h2>
+    <ul>
+      <li>Ingestion validates the schema before any write, checks disk space, runs in one transaction and
+        treats a re-ingest of the same file (SHA-256) as a no-op. Malformed values are counted, never
+        imputed.</li>
+      <li>Three rules: failed-login bursts per account, first-seen browser, OS or device for an
+        established account, and many accounts on one IP within an hour. Each uses only the alerted
+        event and earlier events.</li>
+      <li>Thresholds are calibrated on an unlabeled reference period to fixed alert budgets.</li>
+      <li>Every alert stores its evidence and up to 50 supporting source events. Events after an alert
+        are shown as retrospective context the rule never saw.</li>
+      <li>Relationship queries are bounded, with hard caps. Shared IPs or devices are presented as
+        co-occurrences, not as evidence of ownership or coordination.</li>
+      <li>Cases with append-only audit rows written in the same transaction as each change.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Testing and verification</h2>
+    <p>82 pytest test functions cover ingestion, validation, rules, the detection system, case and query
+      logic, and the application. Predictions are stored before evaluation, recall is reported with
+      Wilson 95% intervals, and no threshold was changed after seeing held-out labels.</p>
+  </section>
+
+  <section>
+    <h2>Measured performance</h2>
+    <div class="split">
+      <div><h3>Engineering</h3><p>Causal, label-free detection; deterministic reruns; evidence traceable
+        to source events; audited case workflow.</p></div>
+      <div><h3>Detection effectiveness</h3><p>None demonstrated. Event-level held-out recall is zero for
+        every rule.</p></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <caption>Held-out period: 20,532,996 events, 65 labeled takeover events (prevalence 3.2 × 10⁻⁶).</caption>
+        <thead><tr><th>Detector</th><th class="num">TP</th><th class="num">FP</th><th class="num">FN</th><th class="num">Recall</th><th class="num">Alert rate</th></tr></thead>
+        <tbody>
+          <tr><td>Any alert</td><td class="num">0</td><td class="num">218,099</td><td class="num">65</td><td class="num">0 (95% CI 0–5.6%)</td><td class="num">1.06%</td></tr>
+          <tr><td>Medium/high only</td><td class="num">0</td><td class="num">1,562</td><td class="num">65</td><td class="num">0</td><td class="num">0.0076%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Limitations</h2>
+    <ul>
+      <li>Of all 141 labeled events, 101 occur within an account’s first five events, where history-based
+        rules cannot judge (a post-hoc diagnostic; nothing was tuned on it).</li>
+      <li>The new-environment rule makes up about 97.6% of rule firings and is a weak signal.</li>
+      <li>Account-level recall (16 of 63) is retrospective, not real-time detection.</li>
+      <li>Extreme class imbalance and synthesized IPs, geography and devices. The dataset authors advise
+        against using it for production intrusion detection.</li>
+    </ul>
+  </section>
+
+  <nav class="pager" aria-label="Projects">
+    <a href="tris.html">&larr; TRIS</a>
+    <a href="btgi.html">BTGI &rarr;</a>
+  </nav>
+</article>
+
+<aside class="facts" aria-label="Project facts">
+  <dl>
+    <dt>Source code</dt>
+    <dd><a href="https://github.com/aynaamus/Account-Takeover---Cyber-Fraud-Investigator--ATIS-" rel="noopener">github.com/aynaamus/Account-Takeover---Cyber-Fraud-Investigator--ATIS-</a></dd>
+    <dt>Stack</dt>
+    <dd>Python 3.12, DuckDB, Streamlit, Plotly</dd>
+    <dt>Data</dt>
+    <dd>RBA login dataset, 31.3 million events (CC BY 4.0); not redistributed</dd>
+    <dt>Held-out result</dt>
+    <dd>0 of 65 labeled takeover events detected</dd>
+    <dt>Status</dt>
+    <dd>Source public; local application</dd>
+  </dl>
+</aside>
+</div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Ayna Musayeva</p>
+    <ul>
+      <li><a href="https://github.com/aynaamus" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/ayna-musayeva-340612180/" rel="noopener">LinkedIn</a></li>
+      <li><a href="mailto:aynamusayeva@gmail.com">Email</a></li>
+      <li><a href="Ayna-Musayeva-Resume.pdf">Resume (PDF)</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>

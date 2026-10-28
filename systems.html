@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intelligence Systems — Ayna Musayeva</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Five analytical systems for corporate, financial, authentication, blockchain and document investigations, with measured results and limitations.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark" href="index.html">Ayna Musayeva<span>Investigative Researcher &amp; Software Developer</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="systems.html" aria-current="page">Intelligence Systems</a></li>
+        <li><a href="investigations.html">Research &amp; Investigations</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<section class="page-head">
+  <div class="container">
+    <p class="kicker">Intelligence systems</p>
+    <h1>Software for investigating complex datasets</h1>
+    <p class="lede">Five systems for working through large datasets. Each ingests its data with recorded
+      provenance, keeps its reasoning inspectable, and reports measured results with their
+      limitations.</p>
+  </div>
+</section>
+
+<section class="section flush">
+  <div class="container">
+    <div class="notice prose">
+      <p><strong>Engineering is not detection.</strong> These pages report what each system does and
+        how it was tested separately from how well its detection rules performed. TRIS, ATIS and BTGI
+        were evaluated on held-out data, and their detection performance is weak. Their alerts are
+        anomalies that call for review. They are not findings of fraud, compromise or illicit
+        activity.</p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+        <p class="kicker">Corporate intelligence · GLEIF</p>
+        <h3><a href="crie.html">CRIE</a></h3>
+        <p class="full">Corporate Relationship Intelligence Engine</p>
+        <p class="summary">Investigation workbench for reported corporate consolidation relationships,
+          with sourced claims, append-only reviews and versioned, hash-verified reports.</p>
+        <p class="meta">Python · MySQL · Streamlit · Public source</p>
+      </div>
+      <div class="card">
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+        <p class="kicker">Transaction monitoring</p>
+        <h3><a href="tris.html">TRIS</a></h3>
+        <p class="full">Transaction Risk Intelligence System</p>
+        <p class="summary">SQL-driven monitoring and investigation workbench on 6.36 million synthetic
+          PaySim mobile-money transactions.</p>
+        <p class="result">Held-out recall 22.4%, precision 16.4% (simulated labels).</p>
+        <p class="meta">Python · DuckDB · NetworkX · Streamlit · Public source</p>
+      </div>
+      <div class="card">
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+        <p class="kicker">Authentication anomalies</p>
+        <h3><a href="atis.html">ATIS</a></h3>
+        <p class="full">Account Takeover Intelligence System</p>
+        <p class="summary">Explainable anomaly rules and relationship analysis over 31.3 million
+          synthesized login events.</p>
+        <p class="result">Detected 0 of 65 held-out labeled takeover events.</p>
+        <p class="meta">Python · DuckDB · Streamlit · Public source</p>
+      </div>
+      <div class="card">
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+        <p class="kicker">Blockchain graph analysis</p>
+        <h3><a href="btgi.html">BTGI</a></h3>
+        <p class="full">Bitcoin Transaction Graph Investigator</p>
+        <p class="summary">Bounded directed-graph exploration of the Elliptic data set, with structural
+          alerts and evidence traced to edges.</p>
+        <p class="result">Held-out precision 1.15%, below the 6.5% base rate.</p>
+        <p class="meta">Python · DuckDB · Streamlit · Public source</p>
+      </div>
+      <div class="card">
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+        <p class="kicker">Source-grounded AI research</p>
+        <h3><a href="nimillux.html">Nimillux</a></h3>
+        <p class="full">AI Research Infrastructure</p>
+        <p class="summary">Fully local retrieval-augmented system with three-tier claim verification
+          and abstention when retrieval is insufficient.</p>
+        <p class="meta">Python · FAISS · BM25 · Mistral 7B · Technical report</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Ayna Musayeva</p>
+    <ul>
+      <li><a href="https://github.com/aynaamus" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/ayna-musayeva-340612180/" rel="noopener">LinkedIn</a></li>
+      <li><a href="mailto:aynamusayeva@gmail.com">Email</a></li>
+      <li><a href="Ayna-Musayeva-Resume.pdf">Resume (PDF)</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>

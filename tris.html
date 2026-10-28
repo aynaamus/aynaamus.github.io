@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRIS — Transaction Risk Intelligence System — Ayna Musayeva</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="TRIS: an explainable, SQL-driven transaction-monitoring and investigation workbench on synthetic PaySim data, with held-out evaluation and stated limitations.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark" href="index.html">Ayna Musayeva<span>Investigative Researcher &amp; Software Developer</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="systems.html" aria-current="page">Intelligence Systems</a></li>
+        <li><a href="investigations.html">Research &amp; Investigations</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<section class="page-head">
+  <div class="container">
+    <p class="kicker"><a href="systems.html">Intelligence systems</a> · Transaction monitoring</p>
+    <h1>TRIS — Transaction Risk Intelligence System</h1>
+    <p class="lede">A local transaction-monitoring and investigation workbench: SQL detection rules with
+      stored evidence, account-network exploration, held-out evaluation and an audited case workflow,
+      built on synthetic mobile-money data.</p>
+  </div>
+</section>
+
+<div class="container">
+<div class="project">
+<article>
+
+  <div class="notice">
+    <p><strong>All data is synthetic.</strong> Alerts are suspicious-activity indicators. They are not
+      confirmed fraud or evidence of money laundering, and the fraud label is a simulator output, not a
+      real-world finding.</p>
+  </div>
+
+  <section>
+    <h2>Investigative problem</h2>
+    <p>Transaction monitoring produces alerts that an analyst has to explain and act on. TRIS explores
+      how much of that work can be made transparent: each alert stores the rule, threshold, observed
+      value and linked transactions, and every case decision is written to an audit trail.</p>
+  </section>
+
+  <section>
+    <h2>Architecture and tools</h2>
+    <ul>
+      <li><strong>DuckDB</strong> holds everything in one file: transactions, ingestion log, thresholds,
+        alerts and evidence, and the case tables.</li>
+      <li>Detection runs as SQL inside DuckDB; nothing is loaded into Python memory.</li>
+      <li><strong>NetworkX</strong> and <strong>Plotly</strong> for bounded account neighbourhoods, with
+        HTML and GraphML export.</li>
+      <li><strong>Streamlit</strong> interface with five views: Overview, Alert Queue, Alert
+        Investigation, Account Network and Detection Performance. It contains no business logic.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Data and scale</h2>
+    <p>PaySim, a mobile-money simulator calibrated on aggregated real logs (Lopez-Rojas, Elmir and
+      Axelsson, 2016): <strong>6,362,620 transactions</strong>, 8,213 labelled as simulated fraud. The
+      dataset is not redistributed.</p>
+    <p>Leakage controls are enforced in code: the fraud label is read only by the evaluation module, the
+      simulator’s own fraud flag is never used, and balance columns are excluded from detection.</p>
+  </section>
+
+  <section>
+    <h2>Engineering capabilities</h2>
+    <ul>
+      <li>Idempotent, transactional ingestion matched by SHA-256, with SQL validation.</li>
+      <li>Three explainable rules: large amount against per-type reference percentiles, destination
+        concentration, and rapid onward movement of 80–100% of an inflow within six simulated hours.</li>
+      <li>Thresholds come only from a reference period (steps 1–400); rerunning detection takes about
+        two seconds and never touches cases, notes or audit history.</li>
+      <li>Alert queue filtered, sorted and paginated in the database; only one page is ever loaded.</li>
+      <li>Case workflow (open, in review, escalated, closed) with dispositions, findings and notes. Every
+        change is written to an append-only audit table in the same transaction.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Testing and verification</h2>
+    <p>44 pytest test functions cover ingestion, detection, networks, the investigation workflow and the
+      application. The evaluation uses a chronological split, and nothing was tuned against held-out
+      labels.</p>
+  </section>
+
+  <section>
+    <h2>Measured performance</h2>
+    <div class="split">
+      <div><h3>Engineering</h3><p>Reproducible pipeline, explainable evidence per alert, audited case
+        workflow, leakage-safe evaluation.</p></div>
+      <div><h3>Detection effectiveness</h3><p>Limited. Detection is effectively one amount-outlier rule,
+        catching 22% of held-out simulated fraud.</p></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <caption>Held-out steps 401–743: 575,590 transactions, 3,736 simulated fraud (prevalence 0.65%).</caption>
+        <thead><tr><th>System</th><th class="num">TP</th><th class="num">FP</th><th class="num">FN</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th></tr></thead>
+        <tbody>
+          <tr><td>Combined</td><td class="num">837</td><td class="num">4,269</td><td class="num">2,899</td><td class="num">0.164</td><td class="num">0.224</td><td class="num">0.189</td></tr>
+          <tr><td>Rule A (amount)</td><td class="num">837</td><td class="num">4,268</td><td class="num">2,899</td><td class="num">0.164</td><td class="num">0.224</td><td class="num">0.189</td></tr>
+          <tr><td>Rule B (concentration)</td><td class="num">0</td><td class="num">0</td><td class="num">3,736</td><td class="num">—</td><td class="num">0.000</td><td class="num">—</td></tr>
+          <tr><td>Rule C (rapid onward)</td><td class="num">0</td><td class="num">1</td><td class="num">3,736</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Limitations</h2>
+    <ul>
+      <li>Rule B fires only in the simulator’s start-up period and nothing in the held-out period.</li>
+      <li>Rule C has little to work with: almost every origin account appears once, leaving one
+        qualifying pair in the held-out period, which was a false positive.</li>
+      <li>PaySim fraud is generated by simulator scripts, so these figures say little about real-world
+        fraud or anti-money-laundering detection.</li>
+      <li>Single-user and local, with no authentication. The audit trail is append-only through the
+        application, not through database permissions.</li>
+    </ul>
+  </section>
+
+  <nav class="pager" aria-label="Projects">
+    <a href="crie.html">&larr; CRIE</a>
+    <a href="atis.html">ATIS &rarr;</a>
+  </nav>
+</article>
+
+<aside class="facts" aria-label="Project facts">
+  <dl>
+    <dt>Source code</dt>
+    <dd><a href="https://github.com/aynaamus/transaction-risk-intelligence-system" rel="noopener">github.com/aynaamus/transaction-risk-intelligence-system</a></dd>
+    <dt>Stack</dt>
+    <dd>Python 3.12, DuckDB, NetworkX, Plotly, Streamlit</dd>
+    <dt>Data</dt>
+    <dd>PaySim synthetic transactions (6.36 million rows); not redistributed</dd>
+    <dt>Held-out result</dt>
+    <dd>Precision 0.164, recall 0.224</dd>
+    <dt>Status</dt>
+    <dd>Source public; local application</dd>
+  </dl>
+</aside>
+</div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Ayna Musayeva</p>
+    <ul>
+      <li><a href="https://github.com/aynaamus" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/ayna-musayeva-340612180/" rel="noopener">LinkedIn</a></li>
+      <li><a href="mailto:aynamusayeva@gmail.com">Email</a></li>
+      <li><a href="Ayna-Musayeva-Resume.pdf">Resume (PDF)</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>

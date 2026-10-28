@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BTGI — Bitcoin Transaction Graph Investigator — Ayna Musayeva</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="BTGI: local graph analysis of the Elliptic Bitcoin data set with bounded path exploration, explainable structural alerts and traced evidence. Not a validated illicit-transaction detector.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark" href="index.html">Ayna Musayeva<span>Investigative Researcher &amp; Software Developer</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="systems.html" aria-current="page">Intelligence Systems</a></li>
+        <li><a href="investigations.html">Research &amp; Investigations</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<section class="page-head">
+  <div class="container">
+    <p class="kicker"><a href="systems.html">Intelligence systems</a> · Blockchain graph analysis</p>
+    <h1>BTGI — Bitcoin Transaction Graph Investigator</h1>
+    <p class="lede">A local graph-analysis tool for the Elliptic Bitcoin data set: validated ingestion,
+      bounded directed-path exploration, explainable structural alerts and a case workflow.</p>
+  </div>
+</section>
+
+<div class="container">
+<div class="project">
+<article>
+
+  <div class="notice">
+    <p><strong>Not a validated illicit-transaction detector.</strong> On the held-out period the
+      structural rules performed worse than the base rate. Risk scores measure structural prominence,
+      not the probability of criminal activity.</p>
+  </div>
+
+  <section>
+    <h2>Investigative problem</h2>
+    <p>Transaction graphs are explored one neighbourhood at a time: who sent to this transaction, who
+      sent to them, and whether the pattern is unusual. BTGI makes that exploration bounded and
+      reproducible, and keeps every rule hit traceable to the specific edges behind it.</p>
+  </section>
+
+  <section>
+    <h2>Architecture and tools</h2>
+    <ul>
+      <li><strong>DuckDB</strong> stores transactions, features, labels and edges, with ingestion runs and
+        source-file hashes, detection runs, alerts and evidence, and cases.</li>
+      <li>Neighbourhoods and paths are built with one bounded SQL query per hop (depth up to 4, with node
+        and edge caps, flagged when truncated). The full graph is never loaded for exploration.</li>
+      <li><strong>Streamlit</strong> and <strong>Plotly</strong> with five views, and a command-line
+        interface for every analytical step.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Data and scale</h2>
+    <p>The Elliptic Data Set (Weber et al., 2019; CC BY-NC-ND 4.0): <strong>203,769 transactions</strong>
+      and <strong>234,355 directed edges</strong> across 49 time steps, with 166 anonymized features.
+      Labels are illicit, licit or unknown, and unknown is never treated as licit. The data has no
+      addresses, owners or amounts, and is not redistributed.</p>
+  </section>
+
+  <section>
+    <h2>Engineering capabilities</h2>
+    <ul>
+      <li>Transactional, idempotent ingestion with recorded file sizes and SHA-256 hashes; source files are
+        never modified.</li>
+      <li>SQL integrity checks: totals, duplicates, missing nodes, self-loops, missing features, degree
+        distributions and connected components (the 49 components coincide with the 49 time steps).</li>
+      <li>Three topology-only, label-free rules: high degree, concentrated fan-in or fan-out, and high
+        two-hop reach. Thresholds come from reference steps 1–34 only.</li>
+      <li>Each rule hit stores the observed value, threshold, the exact evidence total and up to 25
+        supporting edges, and the complete set can be retrieved on demand.</li>
+      <li>Case workflow with an audit row for every change. Dispositions describe a review outcome and
+        never assert criminal activity.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Testing and verification</h2>
+    <p>82 pytest test functions cover ingestion, graph checks, detection, evaluation and exploration, the
+      alert queue and plots, cases and the application. The evaluation was run once on a configuration
+      fixed beforehand and is reported unchanged.</p>
+  </section>
+
+  <section>
+    <h2>Measured performance</h2>
+    <div class="split">
+      <div><h3>Engineering</h3><p>Validated graph, bounded exploration, evidence traceable to edges,
+        audited case workflow.</p></div>
+      <div><h3>Detection effectiveness</h3><p>Below the base rate. Precision of 1.15% is lower than the 6.50%
+        known-label illicit prevalence.</p></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <caption>Held-out steps 35–49: 67,504 transactions (1,083 illicit, 15,587 licit, 50,834 unknown; unknown excluded).</caption>
+        <thead><tr><th class="num">TP</th><th class="num">FP</th><th class="num">TN</th><th class="num">FN</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th><th class="num">Alert rate</th></tr></thead>
+        <tbody>
+          <tr><td class="num">17</td><td class="num">1,467</td><td class="num">14,120</td><td class="num">1,066</td><td class="num">1.15%</td><td class="num">1.57%</td><td class="num">0.013</td><td class="num">5.14%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Limitations</h2>
+    <ul>
+      <li>Graph profiling examined structural statistics for all time steps, including the held-out ones,
+        before the rules were fixed, so the evaluation is not a fully untouched out-of-sample test.</li>
+      <li>The evaluation is retrospective on complete per-step snapshots, not real-time detection.</li>
+      <li>The two-hop rule often fires on transactions that are merely adjacent to a hub.</li>
+      <li>The data is anonymized, so nothing here supports attributing a transaction to a real wallet,
+        person or organization. Paths show topology, not intent, ownership or laundering.</li>
+      <li>The audit trail is append-only through the application only; the database file has no tamper
+        evidence.</li>
+    </ul>
+  </section>
+
+  <nav class="pager" aria-label="Projects">
+    <a href="atis.html">&larr; ATIS</a>
+    <a href="nimillux.html">Nimillux &rarr;</a>
+  </nav>
+</article>
+
+<aside class="facts" aria-label="Project facts">
+  <dl>
+    <dt>Source code</dt>
+    <dd><a href="https://github.com/aynaamus/btgi-blockchain-graph-investigator" rel="noopener">github.com/aynaamus/btgi-blockchain-graph-investigator</a></dd>
+    <dt>Stack</dt>
+    <dd>Python 3.12, DuckDB, Streamlit, Plotly</dd>
+    <dt>Data</dt>
+    <dd>Elliptic Data Set, 203,769 transactions (CC BY-NC-ND 4.0); not redistributed</dd>
+    <dt>Held-out result</dt>
+    <dd>Precision 1.15% against a 6.50% base rate</dd>
+    <dt>Status</dt>
+    <dd>Source public; local application</dd>
+  </dl>
+</aside>
+</div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Ayna Musayeva</p>
+    <ul>
+      <li><a href="https://github.com/aynaamus" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/ayna-musayeva-340612180/" rel="noopener">LinkedIn</a></li>
+      <li><a href="mailto:aynamusayeva@gmail.com">Email</a></li>
+      <li><a href="Ayna-Musayeva-Resume.pdf">Resume (PDF)</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>

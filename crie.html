@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRIE — Corporate Relationship Intelligence Engine — Ayna Musayeva</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="CRIE: an evidence-based investigation workbench for GLEIF corporate consolidation relationships, with append-only audit records and hash-verified versioned reports.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark" href="index.html">Ayna Musayeva<span>Investigative Researcher &amp; Software Developer</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="systems.html" aria-current="page">Intelligence Systems</a></li>
+        <li><a href="investigations.html">Research &amp; Investigations</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<section class="page-head">
+  <div class="container">
+    <p class="kicker"><a href="systems.html">Intelligence systems</a> · Corporate intelligence</p>
+    <h1>CRIE — Corporate Relationship Intelligence Engine</h1>
+    <p class="lede">An investigation workbench for reported corporate relationships. It records what each
+      source says, how the investigator assessed it, and produces reports whose evidence can be checked
+      later.</p>
+  </div>
+</section>
+
+<div class="container">
+<div class="project">
+<article>
+
+  <section>
+    <h2>Investigative problem</h2>
+    <p>Public corporate data says less than it appears to. In GLEIF’s Level 2 data, legal entities
+      report the parents that consolidate them in their accounts. That is useful, but it is largely
+      self-reported, it is not evidence of ownership or control, and when two files differ the data
+      alone does not say whether, or when, anything changed.</p>
+    <p>CRIE is built for the work that follows: opening a case on one relationship, registering the
+      documents found, transcribing claims with their location, recording how each source was reviewed
+      and whether sources are independent, and producing a report that a reviewer can verify.</p>
+  </section>
+
+  <section>
+    <h2>Architecture and tools</h2>
+    <ul>
+      <li><strong>Python 3.12</strong> domain logic and command-line tools (<code>src/</code>).</li>
+      <li><strong>Streamlit</strong> interface with four pages: Investigate, My Investigations,
+        Published Investigations and Methodology.</li>
+      <li><strong>MySQL</strong> as the system of record. Audit rules are enforced in the database:
+        append-only tables whose triggers reject UPDATE and DELETE, supersession checks and foreign
+        keys.</li>
+      <li>A hardened streaming XML parser for GLEIF LEI-CDF and RR-CDF files. Each file is hashed and
+        counted in one pass and imported in a second, in restartable, leased batches with recorded
+        coverage.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Data</h2>
+    <p>GLEIF Legal Entity Identifier and relationship records (published under CC0). Every GLEIF file is
+      kept as an observation with its SHA-256, import batch and coverage, so the same relationship can
+      be compared field by field across files. Records with failing LEI check digits are quarantined:
+      kept as evidence of what the file said, never promoted to trusted entities.</p>
+    <p>The public repository contains no bulk GLEIF data and no private research records. Its
+      demonstration case uses synthetic companies, documents and GLEIF files.</p>
+  </section>
+
+  <section>
+    <h2>Engineering capabilities</h2>
+    <ul>
+      <li><strong>Evidence lineage.</strong> Claim corrections and restorations add new versions, and
+        the original stays recorded. Source reviews, independence assessments and identity mappings
+        are superseded, never overwritten.</li>
+      <li><strong>Corroboration rules.</strong> Agreement counts as corroboration only between sources
+        whose independent origin the investigator has recorded. Republished or related sources never
+        corroborate each other.</li>
+      <li><strong>Manual identity resolution.</strong> Claim subjects are mapped to legal entities only
+        by the investigator (<code>MAPPED</code>, <code>AMBIGUOUS</code>, <code>NO_LEI</code>,
+        <code>UNRESOLVED</code>); a matching name is a hint, not proof.</li>
+      <li><strong>Verifiable reports.</strong> Each report is rendered from an evidence snapshot read in
+        one consistent transaction, stored with its hashes and code version, and later checked for
+        integrity (files unchanged), reproducibility (same output from the same code) and currency
+        (evidence unchanged).</li>
+      <li><strong>Ownership and publishing.</strong> Each investigation belongs to the user who opened
+        it, every write checks ownership, and only a verified, registered report can be published.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Testing and verification</h2>
+    <p>The repository has 943 pytest tests. The 782 unit and interface tests pass without a database.
+      The other 161 are MySQL integration tests, run on request against dedicated test databases. They
+      check the database identity before writing and remove the synthetic rows they create. The
+      deployment procedure was rehearsed end to end on MySQL 8.4.13.</p>
+  </section>
+
+  <section>
+    <h2>Limitations</h2>
+    <ul>
+      <li>Consolidation is not ownership, and the network is a sample, not a complete ownership tree.</li>
+      <li>CRIE does not decide whether a relationship is true, who controls a company, or whether
+        anything is wrong. Its corporate-change determination is always “insufficient evidence”.</li>
+      <li>An “intact” report means its files match their hashes, not that the disclosures are correct.</li>
+      <li>Claims are entered one at a time, and the analyst’s case assessment does not yet keep its
+        history. Sign-in through an external identity provider is implemented but has not been verified
+        with a real provider.</li>
+    </ul>
+  </section>
+
+  <nav class="pager" aria-label="Projects">
+    <a href="systems.html">&larr; All systems</a>
+    <a href="tris.html">TRIS &rarr;</a>
+  </nav>
+</article>
+
+<aside class="facts" aria-label="Project facts">
+  <dl>
+    <dt>Source code</dt>
+    <dd><a href="https://github.com/aynaamus/crie-corporate-relationship-intelligence" rel="noopener">github.com/aynaamus/crie-corporate-relationship-intelligence</a></dd>
+    <dt>Stack</dt>
+    <dd>Python 3.12, MySQL, Streamlit, pytest</dd>
+    <dt>Data</dt>
+    <dd>GLEIF LEI and relationship records (CC0); synthetic demonstration case</dd>
+    <dt>Tests</dt>
+    <dd>782 database-free tests passing; 161 MySQL integration tests</dd>
+    <dt>Status</dt>
+    <dd>Source public; not deployed</dd>
+    <dt>Licence</dt>
+    <dd>All rights reserved; source published for review</dd>
+  </dl>
+</aside>
+</div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Ayna Musayeva</p>
+    <ul>
+      <li><a href="https://github.com/aynaamus" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/ayna-musayeva-340612180/" rel="noopener">LinkedIn</a></li>
+      <li><a href="mailto:aynamusayeva@gmail.com">Email</a></li>
+      <li><a href="Ayna-Musayeva-Resume.pdf">Resume (PDF)</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>
